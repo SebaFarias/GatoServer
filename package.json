@@ -1,10 +1,10 @@
 {
   "name": "gatoserver",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "REST API to handle online Tic-tac-toe matchs",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "devStart": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/SebaFarias/GatoServer/issues"
   },
-  "homepage": "https://github.com/SebaFarias/GatoServer#readme"
+  "homepage": "https://github.com/SebaFarias/GatoServer#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
