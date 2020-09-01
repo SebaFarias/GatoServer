@@ -1,5 +1,6 @@
 *,::before,::after{
-    box-sizing: border-box;  
+    box-sizing: border-box; 
+    --font:'Poppins', sans-serif;
     --cell-size: 100px;
     --primary-color: #403C00;
     --transparent-primary-color: #BFB300;
@@ -16,7 +17,7 @@ body{
     min-width: 300px;
     min-height: 10vh;
     max-height: calc(50vh - 151px);
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -116,7 +117,7 @@ body{
     background-color: var(--background-color);
 }
 .message{
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font);
     color: var(--primary-color);
     text-align: center;
     position: absolute;
@@ -129,8 +130,9 @@ body{
     align-items: center;
 }
 .final-message,
+.remote-config,
 #choose-mark{
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font);
     position: absolute;
     z-index: 10;
     top: -100%;
@@ -144,6 +146,7 @@ body{
     justify-content: center;
     transition: all 0.5s ease;
 }
+.remote-config.show,
 .final-message.show,
 #choose-mark.show{
     transform: translate(0,100%);
@@ -161,8 +164,9 @@ body{
     margin: 1rem;
 }
 .restart-btn,
+.btn,
 .bot-start-btn{
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font);
     font-size: 2rem;
     padding: 1rem;
     cursor: pointer;
@@ -179,6 +183,7 @@ body{
     background-color: var(--background-color);
 }
 .restart-btn:hover,
+.btn:hover,
 .bot-start-btn.o:hover::after,
 .bot-start-btn:hover{
     background-color: var(--primary-color);
@@ -188,8 +193,23 @@ body{
 .marks{
     display: flex;
 }
+.existing-match{
+    display: flex;
+    align-items: center;
+}
+#existing-code{
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    border-color: var(--background-color);
+    font-size: 1rem;
+    font-family: var(--font);
+    color: var(--background-color);
+    background-color: var(--primary-color);
+}
 .final-message h1,
-#choose-mark h1{
+#choose-mark h1,
+.remote-config div{
     font-size: 2rem;
     color: var(--background-color);
 }

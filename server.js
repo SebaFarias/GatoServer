@@ -12,8 +12,8 @@ mongoose.connect(
     })
 
 //Route
-app.get('/',(req , res) =>{
+app.get('/api',(req , res) =>{
     res.send(JSON.stringify({ mensaje: 'Hola mundo'}))
 })
 
-app.listen(3000)
+app.listen(5500)

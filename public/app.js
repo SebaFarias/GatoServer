@@ -17,6 +17,8 @@ const board = document.querySelector('.board')
 const cells = board.querySelectorAll('.cell')
 const modeOptions = document.querySelectorAll('.option')
 const botMenu = document.querySelector('#choose-mark')
+const remoteMenu = document.querySelector('.remote-config')
+const existingCode = document.querySelector('#existing-code')
 const finalMessage = document.querySelector('.final-message')
 const message = document.querySelector('.message h1')
 
@@ -24,10 +26,12 @@ let gameMode = gamemodes.local2P
 let option = 'local-2P'
 let matchStarted = false
 let nonClientMark = 'o'
+let matchCode = ''
 
 cells.forEach( cell => { cell.addEventListener('click' , (e) => {makeMove(e.target)})})
 modeOptions.forEach( option => {option.addEventListener('click', (e) => {changeGameMode(e)})})
 botMenu.addEventListener('click', (e) => {handleBotMenu(e)})
+remoteMenu.addEventListener('click', (e) =>{handleRemoteMenu(e)})
 finalMessage.addEventListener('click', (e) => {restart(e)})
 
 //*************************     Alteraciones al Tablero     *************************
@@ -215,6 +219,7 @@ const changeGameMode = (event) => {
         showFinalMessage('¿Comenzar nueva Partida?')
     }
     if(selectedOption.classList.contains('local-bot'))botMenu.classList.add('show');
+    if (selectedOption.classList.contains('remote-2P'))remoteMenu.classList.add('show');
 }
 const setMsg = (text) => {
     if(text === null){ 
@@ -237,6 +242,22 @@ const handleBotMenu = (event) => {
     if(clicked.classList.contains('bot-start-btn'))newBotGame(clicked)
     else if(!isFinnished(cells))botMenu.classList.remove('show')
 }
+const handleRemoteMenu = (event) =>{
+    event.preventDefault()
+    let clicked = event.target
+    if(clicked.classList.contains('new'))createNewMatch()
+    else if(clicked.classList.contains('join'))joinExistingMatch(existingCode.value)
+    else if(clicked.classList.contains('remote-config'))remoteMenu.classList.remove('show')
+}
+const createNewMatch = () => {
+    sendNewMatchReq()
+    console.log('new btn pressed');
+}
+const joinExistingMatch = (code) => {
+    sendJoinReq(code)
+    console.log(`Join btn pressed try: ${code}`);
+} 
+
 const showFinalMessage = (mensaje) => {
     finalMessage.querySelector('h1').innerText = mensaje
     finalMessage.classList.add('show')
@@ -246,4 +267,11 @@ const won = (winner) => {
 }
 const draw = () => {
     showFinalMessage('Es un empate!')
+}
+//*************************          HTTP Requests           *************************
+const sendNewMatchReq = () => {
+    
+}
+const sendJoinReq = (code) => {
+
 }
