@@ -16,3 +16,6 @@ REST API to handle online Tic*tac*toe matchs
   * [ ] listen to other player's move
   * [ ] Request a new game
   * [ ] Request a marks change
+
+Project Structure based on:
+https://www.youtube.com/watch?v=lV7mxivGX_I
