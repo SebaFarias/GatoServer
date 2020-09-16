@@ -2,9 +2,9 @@
   "name": "gatoserver",
   "version": "1.0.0",
   "description": "REST API to handle online Tic-tac-toe matchs",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
