@@ -10,5 +10,5 @@ app.use(express.json())
 app.use('/api/v1/connection/',connectionRoutes)
 app.use('/api/v1/moves/',movesRoutes)
 
-exports.app = app
+module.exports = app
 

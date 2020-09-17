@@ -3,7 +3,9 @@ const connectionController = require('../controllers/connection.controller')
 
 router.post('/new',connectionController.createConnection)
 
-router.get('/',connectionController.joinByCode)
+router.put('/join',connectionController.joinByCode)
+
+router.put('/disconnect',connectionController.disconnect)
 
 
 

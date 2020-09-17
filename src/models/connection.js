@@ -1,12 +1,13 @@
 const { Mongoose } = require("mongoose");
 
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 
 const ConnectionSchema = mongoose.Schema({
     code: { type: String, required: true },
-    host: String,
-    guest: String,
-    board: String,
+    host_id: String,
+    guest_id: String,
+    board: [String],
     isHostTurn: Boolean,
 },{
     timestamps: true,
