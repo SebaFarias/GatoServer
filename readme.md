@@ -18,6 +18,9 @@ REST API to handle online Tic*tac*toe matchs
   * [ ] Request a new game
   * [ ] Request a marks change
 
+Http requets Codes:
+https://www.restapitutorial.com/httpstatuscodes.html
+
 Project Structure based on:
 https://www.youtube.com/watch?v=lV7mxivGX_I
 
