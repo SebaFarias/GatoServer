@@ -4,18 +4,22 @@ REST API to handle online Tic*tac*toe matchs
 
 ## API To-Dos
 
-* [ ] Connection:
-  * [ ] Create a Match
-  * [ ] Join to a created Match
-  * [ ] Disconnect from a created Match
-  * [ ] Disconnect from my created Match and change host to the guest
-  * [ ] Disconnect from my created Match and close Match
+* [x] Connection:
+  * [x] Create a Match
+  * [x] Join to a created Match
+  * [x] Disconnect from a created Match
+    * [x] Disconnect from my created Match and change host to the guest
+    * [x] Disconnect from my created Match and close Match
 
-* [ ] Moves:
-  * [ ] Send a move
-  * [ ] listen to other player's move
+* [x] Moves:
+  * [x] Send a move
+  * [x] listen to other player's move
+  * [x] Clean the Board
   * [ ] Request a new game
   * [ ] Request a marks change
 
 Project Structure based on:
 https://www.youtube.com/watch?v=lV7mxivGX_I
+
+Handle disconnect:
+Research the Window.onbeforeunload propety

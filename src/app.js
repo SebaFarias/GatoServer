@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
-const connectionRoutes = require('./routes/connection.routes').router
-const movesRoutes = require('./routes/moves.routes').router
+const connectionRoutes = require('./routes/connection.routes')
+const movesRoutes = require('./routes/moves.routes')
 const app = express()
 
 app.use(cors())

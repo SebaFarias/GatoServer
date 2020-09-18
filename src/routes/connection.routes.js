@@ -1,13 +1,10 @@
 const router = require('express').Router()
 const connectionController = require('../controllers/connection.controller')
 
-router.post('/new',connectionController.createConnection)
+router.get('/new',connectionController.createConnection)
 
-router.put('/join',connectionController.joinByCode)
+router.post('/join',connectionController.joinByCode)
 
-router.put('/disconnect',connectionController.disconnect)
+router.post('/disconnect',connectionController.disconnect)
 
-
-
-
-exports.router = router
+module.exports = router

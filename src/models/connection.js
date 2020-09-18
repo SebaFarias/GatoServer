@@ -8,7 +8,7 @@ const ConnectionSchema = mongoose.Schema({
     host_id: String,
     guest_id: String,
     board: [String],
-    isHostTurn: Boolean,
+    playing: Boolean,
 },{
     timestamps: true,
     versionKey: false,
