@@ -10,5 +10,9 @@ app.use(express.json())
 app.use('/api/v1/connection/',connectionRoutes)
 app.use('/api/v1/moves/',movesRoutes)
 
+app.get('/', (req,res) => {
+    res.send('Estamos Funcionando!')
+})
+
 module.exports = app
 
