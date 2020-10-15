@@ -7,6 +7,3 @@ const server_host = process.env.YOUR_HOST || '0.0.0.0';
 app.listen(server_port, server_host ,()=>{
     console.log(`Listening on ${server_host}:${server_port}`)
 })
-.catch( error => {
-    console.log(error);
-})
