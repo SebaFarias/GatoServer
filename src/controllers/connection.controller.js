@@ -1,3 +1,4 @@
+const { update } = require('../models/connection')
 const Connection = require('../models/connection')
 
 const createConnection = async (req,res) => {
@@ -5,6 +6,7 @@ const createConnection = async (req,res) => {
     const newConnection = new Connection({
         code: newCode,
         board: [' ',' ',' ',' ',' ',' ',' ',' ',' '],
+        turn: 'x',
         host_id: generateId(),
         playing: false,
     })
@@ -25,10 +27,17 @@ const joinByCode = async(req,res) => {
     else if(typeof searchResult[0].guest_id === 'undefined' || searchResult[0].guest_id === null){
         let updatedConnection = await Connection.findOneAndUpdate(
             { code: code },
-            { guest_id: generateId(searchResult[0].host_id)},
+            { 
+                guest_id: generateId(searchResult[0].host_id),
+                lastStatus:{
+                    board: updatedConnection.board,
+                    updated: updatedConnection.updatedAt 
+                }
+            },
             { new: true })      
         res.status(200).json({
             connectionCode: updatedConnection.code,
+            hostId: updatedConnection.host_id,
             yourId: updatedConnection.guest_id,
             board: updatedConnection.board,
             lastUpdate: updatedConnection.updatedAt
@@ -46,17 +55,30 @@ const disconnect = async (req,res) => {
                 await Connection.findOneAndDelete({code:connectionCode})
             }
             else{
-                await Connection.findOneAndUpdate(
+                const updatedConnection = await Connection.findOneAndUpdate(
                     {code: connectionCode},
-                    {host_id: searchResult[0].guest_id, guest_id: null},
+                    {
+                        host_id: searchResult[0].guest_id, 
+                        guest_id: null,
+                        lastStatus:{
+                            board: updatedConnection.board,
+                            updated: updatedConnection.updatedAt 
+                        }
+                    },
                     {new: true})      
             }
         }
         else if(searchResult[0].guest_id === id){
             console.log('guest');
-            await Connection.findOneAndUpdate(
+            const updatedConnection = await Connection.findOneAndUpdate(
                 {code: connectionCode},
-                {guest_id: undefined},
+                {
+                    guest_id: undefined,
+                    lastStatus:{
+                        board: updatedConnection.board,
+                        updated: updatedConnection.updatedAt 
+                    },
+                },
                 {new: true})      
         }
         res.json({msj: 'Hasta luego, gracias por jugar' , msg_en: 'Bye, thanks for passing by'})

@@ -9,7 +9,15 @@ const makeAMove = async (req,res) => {
         board[cell] = mark 
         const updatedMatch = await Connection.findOneAndUpdate(
             { code: connectionCode },
-            { board: board , playing: !isFinished},
+            { 
+                board: board,
+                turn: oterMark(mark),
+                playing: !isFinished,
+                lastStatus:{
+                    board: updatedMatch.board,
+                    updated: updatedMatch.updatedAt 
+                }
+            },
             { new: true })
         res.json({
             board: updatedMatch.board,
@@ -24,7 +32,11 @@ const listenToMove = async(req,res) => {
     if(match.length > 0){
         res.json({
             board: match[0].board,
+            p1: match[0].host_id,
             p2: match[0].guest_id,
+            turn: match[0].turn,
+            newMatch: !match[0].playing,
+            before: !match[0].lastStatus,
             lastUpdate: match[0].updatedAt
         })
     }
@@ -49,6 +61,9 @@ const askRestart = (req,res) => {
 }
 const askMarkChange = (req,res) => {
 
+}
+const oterMark = (mark) => {
+    return mark === 'x'? 'o' : 'x'
 }
 
 exports.makeAMove = makeAMove

@@ -5,10 +5,15 @@ mongoose.set('useFindAndModify', false);
 
 const ConnectionSchema = mongoose.Schema({
     code: { type: String, required: true },
+    turn: { type: String, required: true },
     host_id: String,
     guest_id: String,
     board: [String],
     playing: Boolean,
+    lastStatus:{
+        board:[String],
+        updated: Date,
+    },
 },{
     timestamps: true,
     versionKey: false,
