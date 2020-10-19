@@ -19,7 +19,6 @@ const sendGet = () => {
     })
 }
 
-
 const sendPost = () => {
     fetch(API_URL,{
         method: 'POST',

@@ -5,7 +5,7 @@ const createConnection = async (req,res) => {
     let newCode = await generateCode()
     const newConnection = new Connection({
         code: newCode,
-        board: [' ',' ',' ',' ',' ',' ',' ',' ',' '],
+        board: ['','','','','','','','',''],
         turn: 'x',
         host_id: generateId(),
         playing: false,
@@ -15,6 +15,7 @@ const createConnection = async (req,res) => {
         connectionCode: newConnection.code,
         yourId: newConnection.host_id,
         board: newConnection.board,
+        bothPlayers: newConnection.playing,
         lastUpdate: newConnection.updatedAt
     })
 }
@@ -29,9 +30,10 @@ const joinByCode = async(req,res) => {
             { code: code },
             { 
                 guest_id: generateId(searchResult[0].host_id),
+                playing: true,
                 lastStatus:{
-                    board: updatedConnection.board,
-                    updated: updatedConnection.updatedAt 
+                    board: searchResult.board,
+                    updated: searchResult.updatedAt 
                 }
             },
             { new: true })      
@@ -39,6 +41,7 @@ const joinByCode = async(req,res) => {
             connectionCode: updatedConnection.code,
             hostId: updatedConnection.host_id,
             yourId: updatedConnection.guest_id,
+            bothPlayers: updatedConnection.playing,
             board: updatedConnection.board,
             lastUpdate: updatedConnection.updatedAt
         })
@@ -61,22 +64,21 @@ const disconnect = async (req,res) => {
                         host_id: searchResult[0].guest_id, 
                         guest_id: null,
                         lastStatus:{
-                            board: updatedConnection.board,
-                            updated: updatedConnection.updatedAt 
+                            board: searchResult.board,
+                            updated: searchResult.updatedAt 
                         }
                     },
                     {new: true})      
             }
         }
         else if(searchResult[0].guest_id === id){
-            console.log('guest');
             const updatedConnection = await Connection.findOneAndUpdate(
                 {code: connectionCode},
                 {
                     guest_id: undefined,
                     lastStatus:{
-                        board: updatedConnection.board,
-                        updated: updatedConnection.updatedAt 
+                        board: searchResult.board,
+                        updated: searchResult.updatedAt 
                     },
                 },
                 {new: true})      
