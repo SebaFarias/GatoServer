@@ -1,1 +1,3 @@
-DB_CONNECTION = <Your Database connection URL>
+USER = <Your Database User>
+PASSWORD = <Your Database Password>
+DB_NAME = <Your Database Name>

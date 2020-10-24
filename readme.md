@@ -26,3 +26,4 @@ https://www.youtube.com/watch?v=lV7mxivGX_I
 
 Handle disconnect:
 Research the Window.onbeforeunload propety
+

@@ -2,52 +2,69 @@ const { update } = require('../models/connection')
 const Connection = require('../models/connection')
 
 const createConnection = async (req,res) => {
-    let newCode = await generateCode()
-    const newConnection = new Connection({
-        code: newCode,
-        board: ['','','','','','','','',''],
-        turn: 'x',
-        host_id: generateId(),
-        playing: false,
-    })
-    await newConnection.save()
-    res.status(201).json({
-        connectionCode: newConnection.code,
-        yourId: newConnection.host_id,
-        board: newConnection.board,
-        bothPlayers: newConnection.playing,
-        lastUpdate: newConnection.updatedAt
-    })
+  let newCode = await generateCode()
+  const newConnection = new Connection({
+    code: newCode,
+    board: ['','','','','','','','',''],
+    turn: 'x',
+    host_id: generateId(),
+    playing: false,
+  })
+  await newConnection.save()
+  res.status(201).json({
+    connectionCode: newConnection.code,
+    yourId: newConnection.host_id,
+    board: newConnection.board,
+    bothPlayers: newConnection.playing,
+    lastUpdate: newConnection.updatedAt
+  })
 }
 const joinByCode = async(req,res) => {
-    let code = req.body.connectionCode
-    let searchResult = await Connection.find({code: code})
-    if(searchResult.length === 0){
-        res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
-    }
-    else if(typeof searchResult[0].guest_id === 'undefined' || searchResult[0].guest_id === null){
-        let updatedConnection = await Connection.findOneAndUpdate(
-            { code: code },
-            { 
-                guest_id: generateId(searchResult[0].host_id),
-                playing: true,
-                lastStatus:{
-                    board: searchResult.board,
-                    updated: searchResult.updatedAt 
-                }
-            },
-            { new: true })      
-        res.status(200).json({
-            connectionCode: updatedConnection.code,
-            hostId: updatedConnection.host_id,
-            yourId: updatedConnection.guest_id,
-            bothPlayers: updatedConnection.playing,
-            board: updatedConnection.board,
-            lastUpdate: updatedConnection.updatedAt
-        })
-    }else{  
-        res.status(403).json({ msj: 'Los sentimos, la sala está llena, prueba en otra' , msg_en: 'Sorry, server is full, try another code' })
-    }
+  let code = req.body.connectionCode
+  let searchResult = await Connection.find({code: code})
+  if(searchResult.length === 0){
+    res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
+  }
+  else if(typeof searchResult[0].guest_id === 'undefined' || searchResult[0].guest_id === null){
+    let updatedConnection = await Connection.findOneAndUpdate(
+      { code: code },
+      { 
+        guest_id: generateId(searchResult[0].host_id),
+        playing: true,
+        lastStatus:{
+          board: searchResult.board,
+          turn: searchResult.tun,
+          updated: searchResult.updatedAt 
+        }
+      },
+      { new: true })      
+    res.status(200).json({
+      connectionCode: updatedConnection.code,
+      hostId: updatedConnection.host_id,
+      yourId: updatedConnection.guest_id,
+      bothPlayers: updatedConnection.playing,
+      board: updatedConnection.board,
+      lastUpdate: updatedConnection.updatedAt
+    })
+  }else{  
+    res.status(403).json({ msj: 'Los sentimos, la sala está llena, prueba en otra' , msg_en: 'Sorry, server is full, try another code' })
+  }
+}
+const status = async(req,res) => {
+  const { connectionCode } = req.params
+  const match = await Connection.find({code: connectionCode})
+  if(match.length > 0){
+    res.json({
+      board: match[0].board,
+      p1: match[0].host_id,
+      p2: match[0].guest_id,
+      turn: match[0].turn,
+      newMatch: !match[0].playing,
+      before: match[0].lastStatus,
+      lastUpdate: match[0].updatedAt
+    })
+  }
+  else res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
 }
 const disconnect = async (req,res) => {
     const { connectionCode , id } = req.body
@@ -65,6 +82,7 @@ const disconnect = async (req,res) => {
                         guest_id: null,
                         lastStatus:{
                             board: searchResult.board,
+                            turn: searchResult.tun,
                             updated: searchResult.updatedAt 
                         }
                     },
@@ -96,11 +114,12 @@ const generateCode = async() => {
     
 }
 const generateId = (different = '') => {
-    const newId = `${Math.random().toString(36).substring(2,11)}${Math.random().toString(36).substring(2,11)}`
-    if(newId === different)return generateId(different)
-    else return newId
+    const newId = `${Math.random().toString(36).substring(2,11)}${Math.random().toString(36).substring(2,11)}`.toUpperCase()
+    if(newId === different) return generateId(different)
+    return newId
 }
 
 exports.createConnection = createConnection
 exports.joinByCode = joinByCode
+exports.status = status
 exports.disconnect = disconnect

@@ -15,6 +15,7 @@ const makeAMove = async (req,res) => {
         playing: !isFinished,
         lastStatus:{
           board: match[0].board,
+          turn: match[0].tun,
           updated: match[0].updatedAt 
         }
       },
@@ -28,22 +29,6 @@ const makeAMove = async (req,res) => {
     res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
   }
 }
-const listenToMove = async(req,res) => {
-  const { connectionCode } = req.params
-  const match = await Connection.find({code: connectionCode})
-  if(match.length > 0){
-    res.json({
-      board: match[0].board,
-      p1: match[0].host_id,
-      p2: match[0].guest_id,
-      turn: match[0].turn,
-      newMatch: !match[0].playing,
-      before: match[0].lastStatus,
-      lastUpdate: match[0].updatedAt
-    })
-  }
-  else res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
-}
 const cleanBoard = async (req,res) => {
   const { connectionCode } = req.params
   const match = await Connection.find({code: connectionCode}) 
@@ -55,6 +40,7 @@ const cleanBoard = async (req,res) => {
         playing: false,
         lastStatus:{
           board: match[0].board,
+          turn: match[0].tun,
           updated: match[0].updatedAt 
         },
       },
@@ -76,7 +62,6 @@ const oterMark = (mark) => {
 }
 
 exports.makeAMove = makeAMove
-exports.listenToMove = listenToMove
 exports.cleanBoard = cleanBoard
 exports.askRestart = askRestart
 exports.askMarkChange = askMarkChange 

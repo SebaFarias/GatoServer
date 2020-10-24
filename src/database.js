@@ -1,9 +1,9 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-mongoose.connect(
-    process.env.DB_CONNECTION,
-    {useNewUrlParser: true , useUnifiedTopology: true},
-    () => {
-        console.log('connected to database')
-    })
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@gatonegro.7ucsc.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+const options = {useNewUrlParser: true , useUnifiedTopology: true}
+
+mongoose.connect( uri , options )
+.then(() => console.log('connected to database'))
+.catch( e => console.log('DB error:', e ))
