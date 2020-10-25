@@ -12,6 +12,8 @@ const ConnectionSchema = mongoose.Schema({
     playing: Boolean,
     lastStatus:{
         board:[String],
+        turn: String,
+        playing: Boolean,
         updated: Date,
     },
 },{
