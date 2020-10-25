@@ -1,7 +1,7 @@
 const Connection = require('../models/connection')
 
 const makeAMove = async (req,res) => {    
-  const { connectionCode, mark, isFinished, cell} = req.body
+  const { connectionCode, mark, isFinished , cell} = req.body
   if(isNaN(cell) || (mark !== 'x' && mark !== 'o'))return res.status(400).json({})
   const match = await Connection.find({code: connectionCode}) 
   if(match.length > 0){
