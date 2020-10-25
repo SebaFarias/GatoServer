@@ -32,8 +32,9 @@ const makeAMove = async (req,res) => {
 const cleanBoard = async (req,res) => {
   const { connectionCode } = req.params
   const match = await Connection.find({code: connectionCode}) 
+  console.log(`${connectionCode}: last${match[0].lastStatus}`);
   if(match.length > 0){
-    if(!match[0].lastStatus.playing){
+    if(!match[0].playing){
       const updatedMatch = await Connection.findOneAndUpdate(
         { code: connectionCode },
         { 
