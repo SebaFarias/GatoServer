@@ -12,18 +12,17 @@ const makeAMove = async (req,res) => {
       { 
         board: board,
         turn: oterMark(mark),
-        playing: !isFinished,
         lastStatus:{
           board: match[0].board,
           turn: match[0].turn,
-          playing: match[0].playing,
-          updated: match[0].updatedAt 
+          wating: match[0].wating,
+          updated: match[0].updatedAt,
         }
       },
       { new: true })
     res.json({
         board: updatedMatch.board,
-        lastUpdate: updatedMatch.updatedAt
+        lastUpdate: updatedMatch.updatedAt,
     })     
   }else {
     res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})
@@ -33,17 +32,16 @@ const cleanBoard = async (req,res) => {
   const { connectionCode } = req.params
   const match = await Connection.find({code: connectionCode}) 
   if(match.length > 0){
-    if(!match[0].playing){
+    if(!match[0].playing){  ///Here some modifications
       const updatedMatch = await Connection.findOneAndUpdate(
         { code: connectionCode },
         { 
           board: ['','','','','','','','',''] , 
-          playing: true,
           turn: 'x',
           lastStatus:{
             board: match[0].board,
             turn: match[0].turn,
-            playing: match[0].playing,
+            wating: match[0].wating,
             updated: match[0].updatedAt 
           },
         },

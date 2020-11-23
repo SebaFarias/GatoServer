@@ -9,12 +9,12 @@ const ConnectionSchema = mongoose.Schema({
     host_id: String,
     guest_id: String,
     board: [String],
-    playing: Boolean,
+    waiting: String,
     lastStatus:{
         board:[String],
         turn: String,
-        playing: Boolean,
         updated: Date,
+        wating: String,
     },
 },{
     timestamps: true,

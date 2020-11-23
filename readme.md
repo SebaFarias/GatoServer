@@ -18,6 +18,12 @@ REST API to handle online Tic*tac*toe matchs
   * [ ] Request a new game
   * [ ] Request a marks change
 
+  [ ] Seguir el recorrido de los waiting
+  [ ] Eliminar los playing
+  [ ] Si un jugador pide el reinicio de tablero, solo dejarlo en espera: wating = el id q viene en el body
+  [ ] Reiniciar el tablero cuando un jugador lo pide y wating != '', setear el wating en ''
+
+
 Http requets Codes:
 https://www.restapitutorial.com/httpstatuscodes.html
 
