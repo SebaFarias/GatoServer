@@ -1,7 +1,7 @@
 const Connection = require('../models/connection')
 
 const makeAMove = async (req,res) => {    
-  const { connectionCode, mark, isFinished , cell} = req.body
+  const { connectionCode, mark, cell} = req.body
   if(isNaN(cell) || (mark !== 'x' && mark !== 'o'))return res.status(400).json({})
   const match = await Connection.find({code: connectionCode}) 
   if(match.length > 0){
@@ -15,7 +15,7 @@ const makeAMove = async (req,res) => {
         lastStatus:{
           board: match[0].board,
           turn: match[0].turn,
-          wating: match[0].wating,
+          waiting: match[0].waiting,
           updated: match[0].updatedAt,
         }
       },
@@ -30,31 +30,46 @@ const makeAMove = async (req,res) => {
 }
 const cleanBoard = async (req,res) => {
   const { connectionCode } = req.params
+  const { id } = req.body
   const match = await Connection.find({code: connectionCode}) 
   if(match.length > 0){
-    if(!match[0].playing){  ///Here some modifications
+    if(match[0].waiting == ''){ 
       const updatedMatch = await Connection.findOneAndUpdate(
         { code: connectionCode },
         { 
-          board: ['','','','','','','','',''] , 
-          turn: 'x',
+          waiting: id,
           lastStatus:{
             board: match[0].board,
             turn: match[0].turn,
-            wating: match[0].wating,
-            updated: match[0].updatedAt 
+            waiting: match[0].waiting,
+            updated: match[0].updatedAt, 
           },
         },
         { new: true })
       res.json({
         board: updatedMatch.board,
-        lastUpdate: updatedMatch.updatedAt
+        turn: updatedMatch.turn,
+        lastUpdate: updatedMatch.updatedAt,
       })
     }else{
+      const updatedMatch = await Connection.findOneAndUpdate(
+        { code: connectionCode },
+        { 
+          board: ['','','','','','','','',''] , 
+          turn: 'x',
+          waiting: '',
+          lastStatus:{
+            board: match[0].board,
+            turn: match[0].turn,
+            waiting: match[0].waiting,
+            updated: match[0].updatedAt, 
+          },
+        },
+        { new: true })
       res.json({
-        board: match[0].board,
-        turn: match[0].turn,
-        lastUpdate: match[0].updatedAt
+        board: updatedMatch.board,
+        turn: updatedMatch.turn,
+        lastUpdate: updatedMatch.updatedAt,
       })
     }        
   }else{

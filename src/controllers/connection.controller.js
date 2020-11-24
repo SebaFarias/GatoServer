@@ -63,7 +63,7 @@ const status = async(req,res) => {
       turn: match[0].turn,
       before: match[0].lastStatus,
       lastUpdate: match[0].updatedAt,
-      waiting: !match[0].waiting === '' ,
+      waiting: match[0].waiting,
     })
   }
   else res.status(404).json({ msj: 'Partida no Encontrada', msg_en: 'Code not Found',})

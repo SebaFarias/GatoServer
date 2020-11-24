@@ -14,7 +14,7 @@ const ConnectionSchema = mongoose.Schema({
         board:[String],
         turn: String,
         updated: Date,
-        wating: String,
+        waiting: String,
     },
 },{
     timestamps: true,
